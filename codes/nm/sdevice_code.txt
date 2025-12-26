@@ -1,0 +1,77 @@
+File {
+   * input files:
+   Grid=   "@tdr@"
+   Parameter="sdevice.par"
+   * output files:
+   Plot=   "@tdrdat@"
+   Current="@plot@"
+   Output= "@log@"
+}
+
+Electrode {
+   { Name="anode"    Voltage=0 Resistor=40 }
+   { Name="cathode"  Voltage=0 Resistor=40 }
+}
+
+Physics(Material=Silicon) {
+EffectiveIntrinsicDensity ( OldSlotboom NoFermi )
+eQuantumPotential
+hQuantumPotential
+Mobility(
+DopingDep
+eHighFieldSaturation( EParallelToInterface )
+hHighFieldSaturation( EParallelToInterface )
+)
+Recombination(
+SRH(DopingDep)
+eAvalanche(CarrierTempDrive) hAvalanche(Okuto)
+)
+}
+
+Math {
+   Extrapolate
+   RelErrControl
+   Digits=6
+   ErRef(Electron)=1.e8
+   ErRef(Hole)=1.e8
+   NotDamped=50
+   Iterations=25
+   ExitOnFailure
+   TensorGridAniso
+}
+
+Plot {
+   eDensity hDensity
+   eCurrent hCurrent
+   TotalCurrent/Vector eCurrent/Vector hCurrent/Vector
+   eMobility hMobility
+   eVelocity hVelocity
+   eEnormal hEnormal
+   ElectricField/Vector Potential SpaceCharge
+   eQuasiFermi hQuasiFermi
+   Potential Doping SpaceCharge
+   SRH Auger
+   AvalancheGeneration
+   DonorConcentration AcceptorConcentration
+   Doping
+   eEparallel hEparallel          
+   BandGap
+   BandGapNarrowing
+   Affinity
+   ConductionBand ValenceBand
+}
+
+Solve {
+   Coupled(Iterations=100 LineSearchDamping=1e-4) { Poisson eQuantumPotential}
+   Coupled { Poisson eQuantumPotential Electron }
+   Coupled { Poisson eQuantumPotential Hole }
+
+  NewCurrentFile = "diac_char"
+  Quasistationary (
+DoZero
+       Goal { Name="anode" Voltage=@V@ }
+       Initialstep=0.001 Maxstep=0.01 Minstep=1e-6 increment=1.5
+   ) {
+      Coupled { Poisson eQuantumPotential Electron hQuantumPotential Hole }
+   }
+}
