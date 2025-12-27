@@ -3,6 +3,15 @@
 This repository contains a TCAD-based study of a multi-layer DIAC device simulated using Synopsys Sentaurus. 
 The project analyzes breakdown behavior and scaling effects across micrometer and nanometer scale.
 
+<p align="center">
+  <img src="structure/um/diac_structure_um.png" width="600"/>
+</p>
+<p align="center">
+  <img src="structure/um/mesh_density_um.png" width="600"/>
+  <br>
+  <em>Five-layer DIAC structure with boron and arsenic doping (µm scale)</em>
+</p>
+
 ## Toolchain
 - Sentaurus Structure Editor (SDE)
 - Sentaurus Device (SDEVICE)
