@@ -1,0 +1,3 @@
+- Micrometer-scale DIAC shows higher breakover voltage and wider depletion region
+- Nanometer-scale DIAC exhibits stronger electric fields and earlier breakdown
+- Increased leakage and mobility degradation observed at smaller dimensions
